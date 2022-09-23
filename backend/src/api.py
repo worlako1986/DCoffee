@@ -188,6 +188,26 @@ def unprocessable(error):
                     }), 404
 
 '''
+@app.errorhandler(500)
+def internal_server_error(error):
+    return jsonify({
+        "success": False,
+        "error": 500,
+        "message": "Internal Server Error"
+        }), 500
+
+@app.errorhandler(422)
+def unprocessable(error):
+    return jsonify({
+        "success": False,
+        "error": 422,
+        "message": ""
+        }), 422
+
+'''
+@TODO implement error handler for 404
+    error handler should conform to general task above
+'''
 @app.errorhandler(404)
 def resource_not_found(error):
     return jsonify({
@@ -196,14 +216,15 @@ def resource_not_found(error):
         "message": "resource not found"
         }), 404
 
-'''
-@TODO implement error handler for 404
-    error handler should conform to general task above
-'''
-
 
 '''
 @TODO implement error handler for AuthError
     error handler should conform to general task above
 '''
+@app.errorhandler(422)
+def method_not_allow(error):
+    raise AuthError({
+                'code': 'Invalid_request',
+                'description': 'Method not Allowed.'
+            }, 422)
 
